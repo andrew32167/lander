@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rimovy.ch — Software architecture &amp; engineering</title>
+<meta name="description" content="Architecture and hands-on development for B2B SaaS and AI products. Open to B2B projects, technical consulting and long-term collaboration.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#EEEFF1">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08090A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111316'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='600' fill='%23F4F5F7' text-anchor='middle'%3E//%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&amp;display=swap">
+<style>
+:root{
+  --bg:#EEEFF1;--fg:#111316;--link-hover:#3A3F46;
+  --text:#3A3F46;--text-strong:#1E2126;--text-sub:#4A5058;--eyebrow:#5A6069;--muted:#6A7079;--footer:#5A6069;
+  --dot:#16A34A;--pulse:rgba(22,163,74,0.45);--pulse-end:rgba(22,163,74,0);
+  --blob1:#B9BEC6;--blob1-o:0.6;--blob2:#FFFFFF;--blob2-o:0.9;--blob2-blur:120px;--blob3:#9AA1AA;--blob3-o:0.45;
+  --grid:rgba(17,19,22,0.05);--grain-o:0.08;--grain-blend:multiply;
+  --pill-border:rgba(255,255,255,0.8);--pill-bg:rgba(255,255,255,0.5);--pill-shadow:0 2px 10px rgba(17,19,22,0.06);--pill-text:#3A3F46;
+  --card-bg:linear-gradient(150deg,rgba(255,255,255,0.72) 0%,rgba(255,255,255,0.45) 45%,rgba(255,255,255,0.55) 100%);
+  --card-shadow:inset 0 1px 0 rgba(255,255,255,1),inset 0 -1px 0 rgba(255,255,255,0.4),0 40px 100px rgba(17,19,22,0.14),0 8px 24px rgba(17,19,22,0.07);
+  --card-edge:linear-gradient(135deg,rgba(255,255,255,1),rgba(255,255,255,0.4) 40%,rgba(17,19,22,0.06) 70%,rgba(255,255,255,0.9));
+  --card-sheen:none;
+  --cta-bg:#111316;--cta-fg:#F4F5F7;--cta-shadow:0 10px 30px rgba(17,19,22,0.2);
+  --copy-border:rgba(255,255,255,0.9);--copy-bg:rgba(255,255,255,0.55);--copy-shadow:0 4px 16px rgba(17,19,22,0.06);
+  --panel-border:rgba(255,255,255,0.95);--panel-bg:rgba(255,255,255,0.7);--panel-shadow:0 6px 20px rgba(17,19,22,0.06);
+  --panel2-border:rgba(255,255,255,0.8);--panel2-bg:rgba(255,255,255,0.4);--panel2-shadow:0 6px 20px rgba(17,19,22,0.04);
+  --tile-border:rgba(255,255,255,0.8);--tile-bg:rgba(255,255,255,0.45);--tile-shadow:none;
+  --chip-border:rgba(255,255,255,0.9);--chip-bg:rgba(255,255,255,0.6);--chip-shadow:0 2px 8px rgba(17,19,22,0.05);
+  --tag-border:rgba(17,19,22,0.08);--tag-bg:rgba(255,255,255,0.55);
+  --hairline:rgba(17,19,22,0.08);--divider:rgba(17,19,22,0.1);
+}
+@media (prefers-color-scheme: dark){
+:root{
+  --bg:#08090A;--fg:#F4F5F7;--link-hover:#FFFFFF;
+  --text:#C7CCD3;--text-strong:#E4E7EB;--text-sub:#A3AAB4;--eyebrow:#AEB4BD;--muted:#8F96A0;--footer:#8F96A0;
+  --dot:#34D399;--pulse:rgba(52,211,153,0.5);--pulse-end:rgba(52,211,153,0);
+  --blob1:#8C939C;--blob1-o:0.32;--blob2:#E6E8EB;--blob2-o:0.16;--blob2-blur:130px;--blob3:#4A515A;--blob3-o:0.45;
+  --grid:rgba(255,255,255,0.04);--grain-o:0.12;--grain-blend:overlay;
+  --pill-border:rgba(255,255,255,0.14);--pill-bg:rgba(255,255,255,0.06);--pill-shadow:inset 0 1px 0 rgba(255,255,255,0.2);--pill-text:#D4D8DE;
+  --card-bg:linear-gradient(150deg,rgba(255,255,255,0.13) 0%,rgba(255,255,255,0.04) 42%,rgba(255,255,255,0.03) 70%,rgba(255,255,255,0.08) 100%);
+  --card-shadow:inset 0 1px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(255,255,255,0.1),0 50px 120px rgba(0,0,0,0.6),0 10px 30px rgba(0,0,0,0.3);
+  --card-edge:linear-gradient(135deg,rgba(255,255,255,0.6),rgba(255,255,255,0.08) 35%,rgba(255,255,255,0.02) 60%,rgba(255,255,255,0.32));
+  --card-sheen:radial-gradient(ellipse at center,rgba(255,255,255,0.16),rgba(255,255,255,0) 62%);
+  --cta-bg:#F4F5F7;--cta-fg:#0B0C0E;--cta-shadow:0 10px 30px rgba(0,0,0,0.3),inset 0 -2px 0 rgba(0,0,0,0.08);
+  --copy-border:rgba(255,255,255,0.22);--copy-bg:rgba(255,255,255,0.08);--copy-shadow:inset 0 1px 0 rgba(255,255,255,0.3);
+  --panel-border:rgba(255,255,255,0.2);--panel-bg:rgba(255,255,255,0.09);--panel-shadow:inset 0 1px 0 rgba(255,255,255,0.3);
+  --panel2-border:rgba(255,255,255,0.12);--panel2-bg:rgba(255,255,255,0.04);--panel2-shadow:inset 0 1px 0 rgba(255,255,255,0.14);
+  --tile-border:rgba(255,255,255,0.1);--tile-bg:rgba(255,255,255,0.04);--tile-shadow:inset 0 1px 0 rgba(255,255,255,0.12);
+  --chip-border:rgba(255,255,255,0.16);--chip-bg:rgba(255,255,255,0.06);--chip-shadow:inset 0 1px 0 rgba(255,255,255,0.14);
+  --tag-border:rgba(255,255,255,0.1);--tag-bg:rgba(0,0,0,0.18);
+  --hairline:rgba(255,255,255,0.08);--divider:rgba(255,255,255,0.12);
+}
+}
+body{margin:0;background:var(--bg)}
+a{color:var(--fg)}a:hover{color:var(--link-hover)}
+ul,ol{list-style:none;margin:0;padding:0}
+.page{min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;background:var(--bg);color:var(--fg);font-family:'IBM Plex Mono',ui-monospace,monospace}
+.backdrop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(130px)}
+.blob-1{width:50vw;height:50vw;min-width:420px;min-height:420px;left:2%;top:2%;background:var(--blob1);opacity:var(--blob1-o);animation:drift1 26s ease-in-out infinite alternate}
+.blob-2{width:38vw;height:38vw;min-width:320px;min-height:320px;right:4%;top:10%;background:var(--blob2);opacity:var(--blob2-o);filter:blur(var(--blob2-blur));animation:drift2 30s ease-in-out infinite alternate}
+.blob-3{width:46vw;height:46vw;min-width:380px;min-height:380px;right:12%;bottom:-12%;background:var(--blob3);opacity:var(--blob3-o);animation:drift3 32s ease-in-out infinite alternate}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+.grain{position:absolute;inset:0;opacity:var(--grain-o);mix-blend-mode:var(--grain-blend)}
+header{position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:32px clamp(20px,5vw,64px)}
+.logo{font-size:24px;font-weight:500;letter-spacing:-0.04em;text-decoration:none}
+.status{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--pill-shadow);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--pill-text)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--dot);animation:pulse 2.4s ease-out infinite}
+main{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:16px 20px 64px}
+.card{position:relative;overflow:hidden;width:100%;max-width:920px;box-sizing:border-box;padding:clamp(28px,5vw,64px);border-radius:36px;background:var(--card-bg);backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);box-shadow:var(--card-shadow)}
+.card-edge{position:absolute;inset:0;border-radius:36px;padding:1px;background:var(--card-edge);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.card-sheen{position:absolute;left:-25%;right:-25%;top:-40%;height:60%;border-radius:50%;background:var(--card-sheen);pointer-events:none}
+.card-body{position:relative}
+.eyebrow{margin:0 0 16px;font-size:12px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--eyebrow)}
+h1{margin:0 0 24px;font-size:clamp(36px,5.4vw,64px);line-height:1.05;font-weight:500;letter-spacing:-0.04em}
+.lead{margin:0 0 40px;font-size:16px;line-height:1.7;color:var(--text);max-width:620px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;max-width:640px}
+.cta{flex:1 1 300px;display:flex;align-items:center;gap:16px;min-height:64px;padding:0 12px 0 28px;border-radius:999px;background:var(--cta-bg);color:var(--cta-fg);font-size:18px;font-weight:500;text-decoration:none;box-shadow:var(--cta-shadow)}
+.cta:hover{color:var(--cta-fg)}
+.cta-label{flex:1}
+.cta-arrow{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--cta-fg);color:var(--cta-bg)}
+.copy{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:64px;padding:0 24px;border-radius:999px;border:1px solid var(--copy-border);background:var(--copy-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--copy-shadow);color:var(--fg);font-family:inherit;font-size:15px;cursor:pointer;flex:none;width:140px}
+.panels{margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.panel{padding:28px;border-radius:24px;border:1px solid var(--panel-border);background:var(--panel-bg);box-shadow:var(--panel-shadow)}
+.panel-quiet{border-color:var(--panel2-border);background:var(--panel2-bg);box-shadow:var(--panel2-shadow)}
+.panel h2{margin:18px 0 8px;font-size:24px;font-weight:500;letter-spacing:-0.02em}
+.panel h2.eyebrow{margin:0 0 8px;font-size:12px;font-weight:400;letter-spacing:0.18em}
+.panel-lead{margin:0 0 22px;font-size:15px;line-height:1.6;color:var(--text)}
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;font-size:14px;color:var(--text-strong)}
+.skills li{display:flex;gap:10px;align-items:baseline}
+.skills li::before{content:"→";color:var(--muted)}
+.engagements{counter-reset:step}
+.engagements li{counter-increment:step;display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--hairline)}
+.engagements li:last-child{padding-bottom:0;border-bottom:0}
+.engagements li::before{content:counter(step,decimal-leading-zero);font-size:12px;color:var(--muted);padding-top:3px}
+.item-title{font-size:16px;font-weight:500}
+.item-text{margin-top:4px;font-size:14px;line-height:1.5;color:var(--text-sub)}
+.section-label{margin-top:40px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tiles li{padding:20px;border-radius:20px;border:1px solid var(--tile-border);background:var(--tile-bg);box-shadow:var(--tile-shadow)}
+.tiles .item-title{margin-top:14px}
+.tiles .item-text{margin-top:6px;font-size:12px;line-height:1.6}
+.domains{margin-top:40px;padding-top:32px;border-top:1px solid var(--divider)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips li{padding:9px 16px;border-radius:999px;border:1px solid var(--chip-border);background:var(--chip-bg);box-shadow:var(--chip-shadow);font-size:14px;color:var(--text-strong)}
+.stack{margin-top:32px}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:8px;padding-right:8px;width:max-content}
+.marquee-track.is-looping{animation:marquee 70s linear infinite}
+.marquee-track li{flex:none;padding:8px 14px;border-radius:10px;border:1px solid var(--tag-border);background:var(--tag-bg);font-size:12px;color:var(--text);white-space:nowrap}
+footer{position:relative;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px clamp(20px,5vw,64px) 32px;font-size:12px;letter-spacing:0.06em;color:var(--footer)}
+@keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(8vw,6vh) scale(1.15)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1.1)}100%{transform:translate(-10vw,8vh) scale(0.9)}}
+@keyframes drift3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(6vw,-10vh) scale(1.2)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--pulse)}70%{box-shadow:0 0 0 8px var(--pulse-end)}100%{box-shadow:0 0 0 0 var(--pulse-end)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}.marquee-track{flex-wrap:wrap;width:auto}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backdrop" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid"></div>
+    <svg class="grain" width="100%" height="100%"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
+  </div>
+
+  <header>
+    <a class="logo" href="#top" aria-label="Home">//</a>
+    <div class="status"><span class="status-dot"></span>Open to new projects</div>
+  </header>
+
+  <main id="top">
+    <div class="card">
+      <div class="card-edge" aria-hidden="true"></div>
+      <div class="card-sheen" aria-hidden="true"></div>
+
+      <div class="card-body">
+        <p class="eyebrow" style="margin-bottom: 28px">Software architecture &amp; engineering</p>
+        <h1>Let’s work together</h1>
+        <p class="lead">Architecture and hands-on development for B2B SaaS and AI products: from service boundaries and data models to the code that runs in production. Open to B2B projects, technical consulting and long-term collaboration.</p>
+
+        <div class="actions">
+          <a class="cta" href="mailto:hello@rimovy.ch">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+            <span class="cta-label">hello@rimovy.ch</span>
+            <span class="cta-arrow">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>
+            </span>
+          </a>
+          <button class="copy" type="button" id="copy-btn" aria-live="polite">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+            <span id="copy-label">Copy</span>
+          </button>
+        </div>
+
+        <div class="panels">
+          <section class="panel" aria-labelledby="arch-h">
+            <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5l8 4.5 8-4.5"></path><path d="M12 12v9"></path></svg>
+            <h2 id="arch-h">Architecture &amp; engineering</h2>
+            <p class="panel-lead">Design the system, then build it and support it in production.</p>
+            <ul class="skills">
+              <li>System design</li>
+              <li>Service boundaries</li>
+              <li>Data modelling</li>
+              <li>Backend &amp; APIs</li>
+              <li>Event-driven design</li>
+              <li>Multi-tenant SaaS</li>
+              <li>Code quality &amp; testing</li>
+              <li>Production support</li>
+            </ul>
+          </section>
+          <section class="panel panel-quiet" aria-labelledby="eng-h">
+            <h2 class="eyebrow" id="eng-h">Engagements</h2>
+            <ol class="engagements">
+              <li><div><div class="item-title">Architecture review</div><div class="item-text">Assess an existing system: risks, bottlenecks and a clear plan forward.</div></div></li>
+              <li><div><div class="item-title">Greenfield build</div><div class="item-text">Design and build a new product, from the first commit to production.</div></div></li>
+              <li><div><div class="item-title">Scaling &amp; re-architecture</div><div class="item-text">Move a growing platform onto event-driven, multi-tenant foundations.</div></div></li>
+              <li><div><div class="item-title">Hands-on technical lead</div><div class="item-text">Lead the team while writing code: standards, reviews and CI/CD.</div></div></li>
+            </ol>
+          </section>
+        </div>
+
+        <p class="eyebrow section-label">Across the stack</p>
+        <ul class="tiles" aria-label="Engineering areas">
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path><path d="M14 4l-4 16"></path></svg>
+            <div class="item-title">Backend &amp; APIs</div>
+            <div class="item-text">Python · FastAPI · Django · Celery · asyncio</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M10 10h4v4h-4z"></path></svg>
+            <div class="item-title">AI &amp; LLM systems</div>
+            <div class="item-text">RAG · agent workflows · LLM observability · embeddings · vector search</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.5 4.25 4.25 0 0 0 7 18z"></path></svg>
+            <div class="item-title">Cloud &amp; infrastructure</div>
+            <div class="item-text">AWS serverless &amp; containers · infrastructure as code · observability</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"></ellipse><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"></path><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"></path></svg>
+            <div class="item-title">Data &amp; messaging</div>
+            <div class="item-text">Shared schemas · relational &amp; NoSQL · search · queues &amp; pub/sub</div>
+          </li>
+        </ul>
+
+        <div class="domains">
+          <p class="eyebrow">Domains</p>
+          <ul class="chips" aria-label="Domains">
+            <li>Multi-tenant B2B SaaS</li>
+            <li>HR &amp; recruitment tech</li>
+            <li>AI-powered products</li>
+            <li>EdTech &amp; e-learning</li>
+            <li>Enterprise learning platforms</li>
+            <li>Event-driven systems</li>
+            <li>Distributed processing</li>
+          </ul>
+        </div>
+
+        <div class="stack">
+          <p class="eyebrow">Hands-on stack</p>
+          <div class="marquee">
+            <ul class="marquee-track" id="stack-track" aria-label="Technologies">
+              <li>Python</li>
+              <li>FastAPI</li>
+              <li>Django</li>
+              <li>Django REST Framework</li>
+              <li>Flask</li>
+              <li>Celery</li>
+              <li>asyncio</li>
+              <li>Pydantic</li>
+              <li>pytest</li>
+              <li>PostgreSQL</li>
+              <li>MySQL</li>
+              <li>DynamoDB</li>
+              <li>Redis</li>
+              <li>OpenSearch</li>
+              <li>RabbitMQ</li>
+              <li>SQS / SNS</li>
+              <li>AWS Lambda</li>
+              <li>API Gateway</li>
+              <li>ECS</li>
+              <li>S3</li>
+              <li>Cognito</li>
+              <li>CloudFormation</li>
+              <li>Serverless</li>
+              <li>Docker</li>
+              <li>Kubernetes</li>
+              <li>Datadog</li>
+              <li>LangChain</li>
+              <li>LangGraph</li>
+              <li>Langfuse</li>
+              <li>OpenAI</li>
+              <li>Claude Code</li>
+              <li>TypeScript</li>
+              <li>React</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 rimovy.ch</span>
+    <span>B2B · Remote · EU</span>
+  </footer>
+</div>
+<script>
+(function () {
+  var btn = document.getElementById('copy-btn'), label = document.getElementById('copy-label'), t;
+  btn.addEventListener('click', function () {
+    var email = 'hello@rimovy.ch';
+    function done() { label.textContent = 'Copied'; clearTimeout(t); t = setTimeout(function () { label.textContent = 'Copy'; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(email).then(done, done); } else { done(); }
+  });
+
+  var track = document.getElementById('stack-track');
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    Array.prototype.slice.call(track.children).forEach(function (item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+    track.classList.add('is-looping');
+  }
+})();
+</script>
+</body>
+</html>
