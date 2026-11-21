@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rimovy.ch | Software architecture &amp; engineering</title>
+<meta name="description" content="I design and build B2B SaaS and AI products, and I write the code that runs in production.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#EEEFF1">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08090A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111316'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='600' fill='%23F4F5F7' text-anchor='middle'%3E//%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&amp;display=swap">
+<link rel="canonical" href="https://rimovy.ch/tech/">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;font-size:14px;color:var(--text-strong)}
+.skills li{display:flex;gap:10px;align-items:baseline}
+.skills li::before{content:"→";color:var(--muted)}
+.engagements{counter-reset:step}
+.engagements li{counter-increment:step;display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--hairline)}
+.engagements li:last-child{padding-bottom:0;border-bottom:0}
+.engagements li::before{content:counter(step,decimal-leading-zero);font-size:12px;color:var(--muted);padding-top:3px}
+.section-label{margin-top:40px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tiles li{padding:20px;border-radius:20px;border:1px solid var(--tile-border);background:var(--tile-bg);box-shadow:var(--tile-shadow)}
+.tiles .item-title{margin-top:14px}
+.tiles .item-text{margin-top:6px;font-size:12px;line-height:1.6}
+.domains{margin-top:40px;padding-top:32px;border-top:1px solid var(--divider)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips li{padding:9px 16px;border-radius:999px;border:1px solid var(--chip-border);background:var(--chip-bg);box-shadow:var(--chip-shadow);font-size:14px;color:var(--text-strong)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backdrop" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid"></div>
+    <svg class="grain" width="100%" height="100%"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
+  </div>
+
+  <header>
+    <a class="logo" href="/" data-keep-lang="/" aria-label="Home" data-i18n-aria="home">//</a>
+    <div class="header-right">
+      <div class="status"><span class="status-dot"></span><span data-i18n="status">Open to new projects</span></div>
+      <div class="lang">
+        <button type="button" class="lang-toggle" id="lang-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-menu" aria-label="Language" data-i18n-aria="language">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg>
+          <span id="lang-current">English</span>
+          <svg class="lang-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <ul class="lang-menu" id="lang-menu" role="listbox" aria-label="Language" data-i18n-aria="language">
+          <li role="option" id="lang-opt-en" data-lang="en" lang="en" aria-selected="false" tabindex="-1"><span>English</span><svg class="lang-check" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></li>
+          <li role="option" id="lang-opt-fr" data-lang="fr" lang="fr" aria-selected="false" tabindex="-1"><span>Français</span><svg class="lang-check" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></li>
+          <li role="option" id="lang-opt-uk" data-lang="uk" lang="uk" aria-selected="false" tabindex="-1"><span>Українська</span><svg class="lang-check" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></li>
+          <li role="option" id="lang-opt-ru" data-lang="ru" lang="ru" aria-selected="false" tabindex="-1"><span>Русский</span><svg class="lang-check" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="card">
+      <div class="card-edge" aria-hidden="true"></div>
+      <div class="card-sheen" aria-hidden="true"></div>
+
+      <div class="card-body">
+        <p class="eyebrow" style="margin-bottom: 28px" data-i18n="eyebrow">Software architecture &amp; engineering</p>
+        <h1 data-i18n="h1">Let's work together</h1>
+        <p class="lead" data-i18n="lead">I design and build B2B SaaS and AI products, and I write the code that runs in production. I take on B2B projects and technical consulting, short or long term.</p>
+
+        <div class="actions">
+          <a class="cta" href="mailto:hello@rimovy.ch">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+            <span class="cta-label">hello@rimovy.ch</span>
+            <span class="cta-arrow">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>
+            </span>
+          </a>
+          <button class="copy" type="button" id="copy-btn" aria-live="polite">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+            <span id="copy-label">Copy</span>
+          </button>
+        </div>
+
+        <div class="panels">
+          <section class="panel" aria-labelledby="arch-h">
+            <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5l8 4.5 8-4.5"></path><path d="M12 12v9"></path></svg>
+            <h2 id="arch-h" data-i18n="arch_h">Architecture &amp; engineering</h2>
+            <p class="panel-lead" data-i18n="arch_lead">Design the system, then build it and support it in production.</p>
+            <ul class="skills">
+              <li data-i18n="skill1">System design</li>
+              <li data-i18n="skill2">Service boundaries</li>
+              <li data-i18n="skill3">Data modelling</li>
+              <li data-i18n="skill4">Backend &amp; APIs</li>
+              <li data-i18n="skill5">Event-driven design</li>
+              <li data-i18n="skill6">Multi-tenant SaaS</li>
+              <li data-i18n="skill7">Code quality &amp; testing</li>
+              <li data-i18n="skill8">Production support</li>
+            </ul>
+          </section>
+          <section class="panel panel-quiet" aria-labelledby="eng-h">
+            <h2 class="eyebrow" id="eng-h" data-i18n="eng_h">Engagements</h2>
+            <ol class="engagements">
+              <li><div><div class="item-title" data-i18n="eng1_t">Architecture review</div><div class="item-text" data-i18n="eng1_d">Assess an existing system: risks, bottlenecks and a clear plan forward.</div></div></li>
+              <li><div><div class="item-title" data-i18n="eng2_t">Greenfield build</div><div class="item-text" data-i18n="eng2_d">Design and build a new product and get it into production.</div></div></li>
+              <li><div><div class="item-title" data-i18n="eng3_t">Scaling &amp; re-architecture</div><div class="item-text" data-i18n="eng3_d">Move a growing platform onto event-driven, multi-tenant foundations.</div></div></li>
+              <li><div><div class="item-title" data-i18n="eng4_t">Hands-on technical lead</div><div class="item-text" data-i18n="eng4_d">Lead the team while writing code: standards, reviews and CI/CD.</div></div></li>
+            </ol>
+          </section>
+        </div>
+
+        <p class="eyebrow section-label" data-i18n="areas">Across the stack</p>
+        <ul class="tiles" aria-label="Engineering areas" data-i18n-aria="areas_aria">
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path><path d="M14 4l-4 16"></path></svg>
+            <div class="item-title" data-i18n="tile1_t">Backend &amp; APIs</div>
+            <div class="item-text">Python · FastAPI · Django · Celery · asyncio</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path><rect x="7" y="7" width="10" height="10" rx="2"></rect><path d="M10 10h4v4h-4z"></path></svg>
+            <div class="item-title" data-i18n="tile2_t">AI &amp; LLM systems</div>
+            <div class="item-text" data-i18n="tile2_d">RAG · agent workflows · LLM observability · embeddings · vector search</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.5 4.25 4.25 0 0 0 7 18z"></path></svg>
+            <div class="item-title" data-i18n="tile3_t">Cloud &amp; infrastructure</div>
+            <div class="item-text" data-i18n="tile3_d">AWS serverless &amp; containers · infrastructure as code · observability</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"></ellipse><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13"></path><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"></path></svg>
+            <div class="item-title" data-i18n="tile4_t">Data &amp; messaging</div>
+            <div class="item-text" data-i18n="tile4_d">Shared schemas · relational &amp; NoSQL · search · queues &amp; pub/sub</div>
+          </li>
+        </ul>
+
+        <div class="domains">
+          <p class="eyebrow" data-i18n="domains">Domains</p>
+          <ul class="chips" aria-label="Domains" data-i18n-aria="domains">
+            <li data-i18n="dom1">Multi-tenant B2B SaaS</li>
+            <li data-i18n="dom2">HR &amp; recruitment tech</li>
+            <li data-i18n="dom3">AI-powered products</li>
+            <li data-i18n="dom4">EdTech &amp; e-learning</li>
+            <li data-i18n="dom5">Enterprise learning platforms</li>
+            <li data-i18n="dom6">Event-driven systems</li>
+            <li data-i18n="dom7">Distributed processing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 rimovy.ch</span>
+    <a href="/" data-keep-lang="/" data-i18n="nav_other">Services</a>
+  </footer>
+</div>
+<script>
+window.I18N = {
+    en: {
+      nav_other: 'Services',
+      title: 'rimovy.ch | Software architecture & engineering',
+      desc: 'I design and build B2B SaaS and AI products, and I write the code that runs in production.',
+      home: 'Home', language: 'Language',
+      status: 'Open to new projects',
+      eyebrow: 'Software architecture & engineering',
+      h1: 'Let\'s work together',
+      lead: 'I design and build B2B SaaS and AI products, and I write the code that runs in production. I take on B2B projects and technical consulting, short or long term.',
+      copy: 'Copy', copied: 'Copied',
+      arch_h: 'Architecture & engineering',
+      arch_lead: 'Design the system, then build it and support it in production.',
+      skill1: 'System design', skill2: 'Service boundaries', skill3: 'Data modelling', skill4: 'Backend & APIs',
+      skill5: 'Event-driven design', skill6: 'Multi-tenant SaaS', skill7: 'Code quality & testing', skill8: 'Production support',
+      eng_h: 'Engagements',
+      eng1_t: 'Architecture review', eng1_d: 'Assess an existing system: risks, bottlenecks and a clear plan forward.',
+      eng2_t: 'Greenfield build', eng2_d: 'Design and build a new product and get it into production.',
+      eng3_t: 'Scaling & re-architecture', eng3_d: 'Move a growing platform onto event-driven, multi-tenant foundations.',
+      eng4_t: 'Hands-on technical lead', eng4_d: 'Lead the team while writing code: standards, reviews and CI/CD.',
+      areas: 'Across the stack', areas_aria: 'Engineering areas',
+      tile1_t: 'Backend & APIs',
+      tile2_t: 'AI & LLM systems', tile2_d: 'RAG · agent workflows · LLM observability · embeddings · vector search',
+      tile3_t: 'Cloud & infrastructure', tile3_d: 'AWS serverless & containers · infrastructure as code · observability',
+      tile4_t: 'Data & messaging', tile4_d: 'Shared schemas · relational & NoSQL · search · queues & pub/sub',
+      domains: 'Domains',
+      dom1: 'Multi-tenant B2B SaaS', dom2: 'HR & recruitment tech', dom3: 'AI-powered products', dom4: 'EdTech & e-learning',
+      dom5: 'Enterprise learning platforms', dom6: 'Event-driven systems', dom7: 'Distributed processing'
+    },
+    fr: {
+      nav_other: 'Services',
+      title: 'rimovy.ch | Architecture logicielle et ingénierie',
+      desc: 'Je conçois et développe des produits SaaS B2B et IA, et j’écris moi-même le code qui tourne en production.',
+      home: 'Accueil', language: 'Langue',
+      status: 'Disponible pour de nouveaux projets',
+      eyebrow: 'Architecture logicielle et ingénierie',
+      h1: 'Travaillons ensemble',
+      lead: 'Je conçois et développe des produits SaaS B2B et IA, et j’écris moi-même le code qui tourne en production. Projets B2B et conseil technique, sur des missions courtes ou longues.',
+      copy: 'Copier', copied: 'Copié',
+      arch_h: 'Architecture et ingénierie',
+      arch_lead: 'Concevoir le système, puis le construire et le maintenir en production.',
+      skill1: 'Conception de systèmes', skill2: 'Frontières de services', skill3: 'Modélisation des données', skill4: 'Backend et API',
+      skill5: 'Architecture événementielle', skill6: 'SaaS multi-tenant', skill7: 'Qualité du code et tests', skill8: 'Support en production',
+      eng_h: 'Missions',
+      eng1_t: 'Audit d’architecture', eng1_d: 'Évaluer un système existant : risques, goulots d’étranglement et un plan d’action clair.',
+      eng2_t: 'Nouveau produit', eng2_d: 'Concevoir et construire un nouveau produit, jusqu’à sa mise en production.',
+      eng3_t: 'Montée en charge et refonte', eng3_d: 'Faire évoluer une plateforme en croissance vers des fondations événementielles et multi-tenant.',
+      eng4_t: 'Lead technique qui code', eng4_d: 'Diriger l’équipe tout en codant : standards, revues de code et CI/CD.',
+      areas: 'Sur toute la stack', areas_aria: 'Domaines d’ingénierie',
+      tile1_t: 'Backend et API',
+      tile2_t: 'Systèmes IA et LLM', tile2_d: 'RAG · workflows d’agents · observabilité LLM · embeddings · recherche vectorielle',
+      tile3_t: 'Cloud et infrastructure', tile3_d: 'AWS serverless et conteneurs · infrastructure as code · observabilité',
+      tile4_t: 'Données et messagerie', tile4_d: 'Schémas partagés · relationnel et NoSQL · recherche · files d’attente et pub/sub',
+      domains: 'Secteurs',
+      dom1: 'SaaS B2B multi-tenant', dom2: 'RH et recrutement', dom3: 'Produits basés sur l’IA', dom4: 'EdTech et e-learning',
+      dom5: 'Plateformes de formation pour entreprises', dom6: 'Systèmes événementiels', dom7: 'Traitement distribué'
+    },
+    uk: {
+      nav_other: 'Послуги',
+      title: 'rimovy.ch | Архітектура та розробка програмного забезпечення',
+      desc: 'Проєктую та розробляю B2B SaaS і AI-продукти й сам пишу код, що працює в продакшені.',
+      home: 'Головна', language: 'Мова',
+      status: 'Приймаю нові проєкти',
+      eyebrow: 'Архітектура та розробка ПЗ',
+      h1: 'Працюймо разом',
+      lead: 'Проєктую та розробляю B2B SaaS і AI-продукти й сам пишу код, що працює в продакшені. Беру B2B-проєкти й технічний консалтинг, короткі чи довгострокові.',
+      copy: 'Копіювати', copied: 'Скопійовано',
+      arch_h: 'Архітектура та розробка',
+      arch_lead: 'Спроєктувати систему, потім побудувати її та підтримувати в продакшені.',
+      skill1: 'Системний дизайн', skill2: 'Межі сервісів', skill3: 'Моделювання даних', skill4: 'Backend і API',
+      skill5: 'Подієва архітектура', skill6: 'Multi-tenant SaaS', skill7: 'Якість коду й тестування', skill8: 'Підтримка продакшену',
+      eng_h: 'Формати співпраці',
+      eng1_t: 'Аудит архітектури', eng1_d: 'Оцінка наявної системи: ризики, вузькі місця та чіткий план дій.',
+      eng2_t: 'Розробка з нуля', eng2_d: 'Проєктування та створення нового продукту аж до запуску в продакшен.',
+      eng3_t: 'Масштабування й зміна архітектури', eng3_d: 'Перенесення платформи, що зростає, на подієву multi-tenant основу.',
+      eng4_t: 'Технічний лід, що пише код', eng4_d: 'Керування командою разом із написанням коду: стандарти, рев’ю та CI/CD.',
+      areas: 'По всьому стеку', areas_aria: 'Інженерні напрями',
+      tile1_t: 'Backend і API',
+      tile2_t: 'AI та LLM-системи', tile2_d: 'RAG · агентні воркфлоу · спостережуваність LLM · ембедінги · векторний пошук',
+      tile3_t: 'Хмара та інфраструктура', tile3_d: 'AWS serverless і контейнери · infrastructure as code · моніторинг',
+      tile4_t: 'Дані та обмін повідомленнями', tile4_d: 'Спільні схеми · реляційні та NoSQL БД · пошук · черги та pub/sub',
+      domains: 'Галузі',
+      dom1: 'Multi-tenant B2B SaaS', dom2: 'HR і рекрутинг', dom3: 'Продукти на основі AI', dom4: 'EdTech та e-learning',
+      dom5: 'Корпоративні навчальні платформи', dom6: 'Подієві системи', dom7: 'Розподілена обробка'
+    },
+    ru: {
+      nav_other: 'Услуги',
+      title: 'rimovy.ch | Архитектура и разработка программного обеспечения',
+      desc: 'Проектирую и разрабатываю B2B SaaS и AI-продукты и сам пишу код, который работает в продакшене.',
+      home: 'Главная', language: 'Язык',
+      status: 'Принимаю новые проекты',
+      eyebrow: 'Архитектура и разработка ПО',
+      h1: 'Давайте работать вместе',
+      lead: 'Проектирую и разрабатываю B2B SaaS и AI-продукты и сам пишу код, который работает в продакшене. Беру B2B-проекты и технический консалтинг, короткие или долгосрочные.',
+      copy: 'Копировать', copied: 'Скопировано',
+      arch_h: 'Архитектура и разработка',
+      arch_lead: 'Спроектировать систему, затем построить её и поддерживать в продакшене.',
+      skill1: 'Системный дизайн', skill2: 'Границы сервисов', skill3: 'Моделирование данных', skill4: 'Backend и API',
+      skill5: 'Событийная архитектура', skill6: 'Multi-tenant SaaS', skill7: 'Качество кода и тесты', skill8: 'Поддержка продакшена',
+      eng_h: 'Форматы работы',
+      eng1_t: 'Аудит архитектуры', eng1_d: 'Оценка существующей системы: риски, узкие места и понятный план действий.',
+      eng2_t: 'Разработка с нуля', eng2_d: 'Проектирование и создание нового продукта вплоть до запуска в продакшен.',
+      eng3_t: 'Масштабирование и смена архитектуры', eng3_d: 'Перевод растущей платформы на событийную multi-tenant основу.',
+      eng4_t: 'Технический лид, который пишет код', eng4_d: 'Руководство командой вместе с написанием кода: стандарты, ревью и CI/CD.',
+      areas: 'По всему стеку', areas_aria: 'Инженерные направления',
+      tile1_t: 'Backend и API',
+      tile2_t: 'AI и LLM-системы', tile2_d: 'RAG · агентные воркфлоу · наблюдаемость LLM · эмбеддинги · векторный поиск',
+      tile3_t: 'Облако и инфраструктура', tile3_d: 'AWS serverless и контейнеры · infrastructure as code · мониторинг',
+      tile4_t: 'Данные и обмен сообщениями', tile4_d: 'Общие схемы · реляционные и NoSQL БД · поиск · очереди и pub/sub',
+      domains: 'Отрасли',
+      dom1: 'Multi-tenant B2B SaaS', dom2: 'HR и рекрутинг', dom3: 'Продукты на основе AI', dom4: 'EdTech и e-learning',
+      dom5: 'Корпоративные обучающие платформы', dom6: 'Событийные системы', dom7: 'Распределённая обработка'
+    }
+  };
+</script>
+<script src="/assets/i18n.js"></script>
+</body>
+</html>
